@@ -13,3 +13,7 @@ services:
         generateValue: true
       - key: DEBUG
         value: False
+
+    postDeploy:
+      - python manage.py migrate
+      - python manage.py collectstatic --noinput
