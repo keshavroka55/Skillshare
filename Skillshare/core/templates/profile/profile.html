@@ -1,0 +1,343 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <style>
+    /* Global styles */
+    :root {
+      --primary-color: #1877f2;
+      --secondary-color: #f0f2f5;
+      --text-color: #1c1e21;
+      --muted-text: #65676b;
+      --border-color: #dddfe2;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
+      --border-radius: 8px;
+    }
+
+    body {
+      background-color: var(--secondary-color);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Profile Banner */
+    .profile-banner {
+      width: 100%;
+      height: 350px;
+      position: relative;
+      background: linear-gradient(180deg, #e4e6eb 0%, #d3d6db 100%);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .profile-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('{% static "images/default-cover.jpg" %}') no-repeat center/cover;
+      z-index: 1;
+    }
+
+    /* Profile Picture */
+    .profile-pic-container {
+      position: absolute;
+      bottom: -80px;
+      left: 20px;
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      border: 4px solid #fff;
+      background: #fff;
+      overflow: hidden;
+      z-index: 2;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .profile-pic-container:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-pic-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Profile Info */
+    .card-body.profile-info {
+      margin-top: 90px;
+      padding: 20px 20px 30px;
+      position: relative;
+    }
+
+    .profile-info h3 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 5px;
+      color: var(--text-color);
+    }
+
+    .username-handle {
+      font-size: 15px;
+      color: var(--muted-text);
+      margin-bottom: 15px;
+    }
+
+    .profile-info p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-color);
+      margin: 10px 0;
+    }
+
+    .profile-info p strong {
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    /* Social Link */
+    .profile-info a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .profile-info a:hover {
+      color: #365899;
+      text-decoration: underline;
+    }
+
+    /* Button Group */
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #365899;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: #e4e6eb;
+      color: var(--text-color);
+      border: none;
+    }
+
+    .btn-secondary:hover {
+      background-color: #d8dade;
+      transform: translateY(-2px);
+    }
+
+    /* Navigation Tabs (Facebook-like) */
+    .profile-nav {
+      border-top: 1px solid var(--border-color);
+      padding: 0 20px;
+      background: #fff;
+    }
+
+    .profile-nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    .profile-nav li {
+      margin-right: 10px;
+    }
+
+    .profile-nav a {
+      display: block;
+      padding: 15px 20px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--muted-text);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    .profile-nav a:hover,
+    .profile-nav a.active {
+      color: var(--primary-color);
+    }
+
+    .profile-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--primary-color);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 0 10px;
+      }
+
+      .profile-banner {
+        height: 200px;
+      }
+
+      .profile-pic-container {
+        width: 120px;
+        height: 120px;
+        bottom: -60px;
+        left: 15px;
+      }
+
+      .card-body.profile-info {
+        margin-top: 70px;
+        padding: 15px;
+      }
+
+      .profile-info h3 {
+        font-size: 22px;
+      }
+
+      .profile-info p {
+        font-size: 14px;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 12px;
+      }
+
+      .profile-nav ul {
+        flex-wrap: wrap;
+      }
+
+      .profile-nav a {
+        padding: 10px 15px;
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-banner {
+        height: 150px;
+      }
+
+      .profile-pic-container {
+        width: 100px;
+        height: 100px;
+        bottom: -50px;
+        left: 10px;
+      }
+
+      .profile-info h3 {
+        font-size: 18px;
+      }
+
+      .username-handle {
+        font-size: 13px;
+      }
+
+      .profile-info p {
+        font-size: 13px;
+      }
+
+      .btn {
+        font-size: 13px;
+        padding: 10px;
+      }
+
+      .profile-nav a {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+    }
+  </style>
+
+  <div class="container">
+    <div class="card">
+      <div class="profile-banner">
+        <div class="profile-pic-container">
+          {% if user.userprofile.profile_image %}
+            <img src="{{ user.userprofile.profile_image.url }}" alt="Profile Image" />
+          {% else %}
+            <img src="{% static 'profile_images/default.jpg' %}" alt="Default Image" />
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="card-body profile-info">
+        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        <p class="username-handle">@{{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email|default:'None' }}</p>
+        <p><strong>Location:</strong> {{ user.location|default:'None' }}</p>
+        <p><strong>Bio:</strong> {{ user.userprofile.bio|default:'None' }}</p>
+        <p><strong>Skills I Have:</strong> {{ user.userprofile.skills_i_have|default:'None' }}</p>
+        <p><strong>Skills I Need:</strong> {{ user.userprofile.skills_i_need|default:'None' }}</p>
+        <div>
+          {% with link=user.userprofile.social_account_link %}
+            {% if link %}
+              {% if 'http' in link %}
+                <a href="{{ link }}" target="_blank" rel="noopener noreferrer">View Social Profile</a>
+              {% else %}
+                <a href="https://{{ link }}" target="_blank" rel="noopener noreferrer">View Social Profile</a>
+              {% endif %}
+            {% endif %}
+          {% endwith %}
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="profile-nav">
+        <ul>
+          <li><a href="{%url 'profile_edit'%}" class="active">Profile Edit</a></li>
+          <li><a href="{%url 'password_change'%}">Change Password</a></li>
+          <li><a href="#">More</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}

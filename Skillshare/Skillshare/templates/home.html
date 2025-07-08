@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Welcome | SkillSwap{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<section class="hero-section text-center py-5">
+  <div class="container">
+    <h1 class="display-4 fw-bold mb-3">Welcome to <span class="text-primary">SkillSwap</span></h1>
+    <p class="lead mb-4">A community-driven platform to <strong>share</strong> your skills and <strong>learn</strong> from others. Grow together!</p>
+    
+    <div class="d-flex justify-content-center gap-3">
+      {% if user.is_authenticated %}
+        <a href="{% url 'userprofile' %}" class="btn btn-primary btn-lg px-4">Go to Your Profile</a>
+        <a href="{% url 'chat_select' %}" class="btn btn-outline-secondary btn-lg px-4">Messages</a>
+      {% else %}
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-4">Join Now</a>
+        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="features-section py-5 bg-light">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4 mb-4">
+        <img src="{% static 'images/one.png' %}" class="mb-3 feature-img" alt="Share Skills">
+        <h4 class="fw-semibold">Share Your Skills</h4>
+        <p>Host sessions and teach others what you're passionate about. It's rewarding and impactful.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <img src="{% static 'images/two.png' %}" class="mb-3 feature-img" alt="Learn Skills">
+        <h4 class="fw-semibold">Learn New Skills</h4>
+        <p>Find mentors, join classes, and upskill in the areas you care about — for free.</p>
+      </div>
+      <div class="col-md-4 mb-4">
+        <img src="{% static 'images/three.png' %}" class="mb-3 feature-img" alt="Community">
+        <h4 class="fw-semibold">Engage with Community</h4>
+        <p>Be part of a like-minded community of learners and doers who uplift each other.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section py-5 text-center">
+  <div class="container">
+    <h2 class="fw-bold mb-3">Ready to make your first skill swap?</h2>
+    <p class="mb-4">Start by exploring user profiles, sharing your skill, or sending a message.</p>
+    {% comment %} <a href="{% url 'corepage' %}" class="btn btn-success btn-lg">Explore Members</a> {% endcomment %}
+  </div>
+</section>
+{% endblock %}

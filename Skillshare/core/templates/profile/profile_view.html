@@ -1,0 +1,48 @@
+```html
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+
+<div class="profile-container">
+  <div class="profile-card">
+    <!-- Top Banner + Profile Image -->
+    <div class="profile-banner" style="background-image: url('{% if profile_user.userprofile.cover_image %}{{ profile_user.userprofile.cover_image.url }}{% else %}{% static 'images/default_banner.jpg' %}{% endif %}');">
+      <div class="profile-pic-container">
+        {% if profile_user.userprofile.profile_image %}
+          <img src="{{ profile_user.userprofile.profile_image.url }}" alt="{{ profile_user.username }}'s Profile Image" class="profile-image" />
+        {% else %}
+          <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Image" class="profile-image" />
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Profile Info -->
+    <div class="profile-info">
+      <h3 class="profile-name">{{ profile_user.first_name }} {{ profile_user.last_name }}</h3>
+      <p class="username-handle">@{{ profile_user.username }}</p>
+      <p class="profile-bio"><strong>Bio:</strong> {{ profile_user.userprofile.bio|default:'Digital Creator | Kathmandu, Nepal' }}</p>
+      <p class="profile-details"><strong>Email:</strong> {{ profile_user.email|default:'Not provided' }}</p>
+      <p class="profile-details"><strong>Skills I Have:</strong> {{ profile_user.userprofile.skills_i_have|default:'Photography, Graphic Design, Outdoor Content Creation' }}</p>
+      <p class="profile-details"><strong>Skills I Need:</strong> {{ profile_user.userprofile.skills_i_need|default:'Video Editing, Social Media Marketing' }}</p>
+
+      <!-- Social Profile -->
+      <div class="social-link-container">
+        {% with link=profile_user.userprofile.social_account_link %}
+          {% if link %}
+            {% if 'http' in link %}
+              <a href="{{ link }}" target="_blank" rel="noopener noreferrer" class="social-link">🔗 View Social Profile</a>
+            {% else %}
+              <a href="https://{{ link }}" target="_blank" rel="noopener noreferrer" class="social-link">🔗 View Social Profile</a>
+            {% endif %}
+          {% else %}
+            <span class="social-link disabled">🔗 No Social Profile</span>
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+```
