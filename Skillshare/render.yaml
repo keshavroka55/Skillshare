@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: Skillshare-keshav
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn Skillshare.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dpg-d1mj6j15pdvs73d4okj0-a
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
