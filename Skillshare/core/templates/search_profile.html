@@ -52,26 +52,6 @@
           <strong>Skills:</strong> {{ profile.skills_i_have|default:'Photography, Graphic Design, Outdoor Content Creation' }}
         </p>
 
-        <!-- Action Buttons -->
-        <div style="display: flex; gap: 10px; margin-top: 12px;">
-          <!-- Follow Button -->
-          <form method="post" action="{% url 'follow_user' profile.user.id %}">
-            {% csrf_token %}
-            <button type="submit" style="
-              background-color: #1b74e4;
-              color: #fff;
-              border: none;
-              padding: 8px 16px;
-              border-radius: 6px;
-              font-size: 14px;
-              font-weight: 500;
-              cursor: pointer;
-              transition: background-color 0.2s ease;
-            " onmouseover="this.style.backgroundColor='#1557b0'" onmouseout="this.style.backgroundColor='#1b74e4'">
-              View Profile
-            </button>
-          </form>
-
           <!-- Message Button -->
           <a href="{% url 'send' profile.user.id %}" style="
             background-color: #e4e6eb;
