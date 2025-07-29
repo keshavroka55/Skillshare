@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/connection.css' %}">
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <div style="background-color: #d4edda; color: #155724; padding: 10px 20px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #c3e6cb;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+<div class="main-content">
+    <div class="connection-list">
+        <h2>People You May Know</h2>
+        <ul>
+            {% for user in users %}
+            {% if not user.is_connected %}
+            <li class="connection-card">
+                <div class="connection-card__header">
+                    <a href="{% url 'inspect_user' user.id %}">
+                        <img src="{{ user.userprofile.profile_image.url|default:'/static/images/default-profile.png' }}" alt="{{ user.first_name }} {{ user.last_name }}" class="connection-card__image">
+                    </a>
+                    <div class="connection-card__info">
+                        <div class="connection-card__name">{{ user.first_name }} {{ user.last_name }}</div>
+                        <div class="connection-card__headline">Bio: {{ user.userprofile.bio|default:"Professional" }}</div>
+                        <div class="connection-card__skills">Skills: {{ user.userprofile.skills_i_have|default:"Berojgar,Tiktoker" }}</div>
+                    </div>
+                </div>
+                <div class="connection-card__actions">
+                    <form action="{% url 'send_request' user.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="connection-card__button">Connect</button>
+                    </form>
+                </div>
+            </li>
+            {% endif %}
+            {% empty %}
+            <li>No new connections available.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

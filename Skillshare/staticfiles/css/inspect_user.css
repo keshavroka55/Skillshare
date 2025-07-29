@@ -1,0 +1,60 @@
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.profile-banner {
+  background-color: #e6f0ff;
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-pic-container img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info {
+  padding: 1.5rem;
+}
+
+.profile-info h3 {
+  font-size: 28px;
+  margin-bottom: 5px;
+}
+
+.username-handle {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.profile-info p {
+  margin-bottom: 0.8rem;
+  font-size: 16px;
+}
+
+.social-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.social-link:hover {
+  background-color: #0056b3;
+}

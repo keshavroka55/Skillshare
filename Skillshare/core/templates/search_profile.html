@@ -1,75 +1,42 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block home %}
-{% endblock %}
-
 {% block content %}
-<div class="container" style="max-width: 900px; margin: auto; padding: 0 15px;">
-  <h2 class="mb-4" style="color: #1c1e21; font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 600;">
+<link rel="stylesheet" href="{% static 'css/search_results.css' %}">
+
+<div class="results-container">
+  <h2 class="results-heading">
     Search Results for "{{ query }}"
   </h2>
 
   {% if results %}
     {% for profile in results %}
-      <div style="
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        padding: 16px;
-        margin-bottom: 20px;
-        border: 1px solid #dddfe2;
-        transition: all 0.2s ease;
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-      " onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.2)'" onmouseout="this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)'">
-        
-        <!-- Profile Header -->
-        <div style="display: flex; align-items: center; margin-bottom: 12px;">
-          <!-- Profile Image -->
-          <img src="{{ profile.profile_image.url|default:'/static/images/default_profile.png' }}" style="
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 12px;
-            border: 2px solid #fff;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-          " alt="{{ profile.user.username }}'s profile picture">
-          
-          <!-- Name and Bio -->
-          <div>
-            <h4 style="color: #1c1e21; margin: 0; font-size: 18px; font-weight: 600;">
-              {{ profile.user.get_full_name|default:profile.user.username }}
-            </h4>
-            <p style="color: #606770; font-size: 14px; margin: 2px 0 0 0;">
-              {{ profile.bio|default:'Digital Creator | Kathmandu, Nepal' }}
-            </p>
-          </div>
-        </div>
-
-        <!-- Profile Details -->
-        <p style="color: #606770; font-size: 14px; margin: 0 0 10px 0; line-height: 1.5;">
-          <strong>Skills:</strong> {{ profile.skills_i_have|default:'Photography, Graphic Design, Outdoor Content Creation' }}
-        </p>
-
-          <!-- Message Button -->
-          <a href="{% url 'send' profile.user.id %}" style="
-            background-color: #e4e6eb;
-            color: #050505;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: background-color 0.2s ease;
-          " onmouseover="this.style.backgroundColor='#d8dade'" onmouseout="this.style.backgroundColor='#e4e6eb'">
-            Message
-          </a>
+    <div class="profile-card">
+      <div class="profile-header">
+        <a href="{% url 'inspect_user' profile.user.id %}">
+          <img src="{{ profile.profile_image.url|default:'/static/images/default_profile.png' }}" class="profile-image" alt="{{ profile.user.username }}'s profile picture">
+        </a>
+        <div>
+          <h4 class="profile-name">
+            {{ profile.user.get_full_name|default:profile.user.username }}
+          </h4>
+          <p class="profile-bio">
+            {{ profile.bio|default:'Digital Creator | Kathmandu, Nepal' }}
+          </p>
         </div>
       </div>
+      
+      <p class="profile-skills">
+        <strong>Skills:</strong> {{ profile.skills_i_have|default:'Photography, Graphic Design, Outdoor Content Creation' }}
+      </p>
+      
+      <a href="{% url 'send' profile.user.id %}" class="message-button">Message</a>
+      <a href="{% url 'send_request' profile.user.id %}" class="message-button">Connects</a>
+    </div>
     {% endfor %}
+    
   {% else %}
-    <p style="font-size: 16px; color: #606770; font-family: 'Helvetica Neue', Arial, sans-serif;">
+    <p class="no-results">
       No profiles found with the skill "{{ query }}".
     </p>
   {% endif %}

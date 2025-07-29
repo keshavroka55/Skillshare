@@ -42,6 +42,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "django_browser_reload",
     'core',
+    'connect',
+    # for google auth.
+    'social_django',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -53,11 +61,57 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+# SOCIAL_AUTH_PIPELINE = (
+#     'social_core.pipeline.user.get_user_by_email',
+# )
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '308677933289-1d492tve78dp2f3mn8mbj34i1njrh7gk.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+
+# Django allauth config
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'Skillshare.urls'
+
+# to print the email on terminal during development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# for sending the confromation mail for the register user.
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'krishjak1244@gmail.com'  
+EMAIL_HOST_PASSWORD = 'hcqg zrmo fvek qmuh' 
+
 
 TEMPLATES = [
     {
@@ -66,6 +120,7 @@ TEMPLATES = [
             BASE_DIR / "templates", # that's not work while i first try
             BASE_DIR / "Skillshare"/ "templates",
             BASE_DIR / "core"/ "templates",
+
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -131,6 +186,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join (BASE_DIR,'Skillshare','static'), # where the css/js file are stored.
     os.path.join (BASE_DIR,'core','static'),
+    os.path.join (BASE_DIR,'connect','static'),
+
 ]
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
@@ -145,11 +202,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media') # where the uploaded files are saved
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# after login redirect.
-# LOGIN_REDIRECT_URL = 'homepage'
 
 LOGIN_URL = '/core/login/'
-# LOGIN_URL = '/login/'
 
 LOGIN_REDIRECT_URL = '/success/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/success/' # this is for while login using continue with google.
+LOGOUT_REDIRECT_URL = '/homepage/'
 

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,include
 from django.contrib.auth.views import LoginView
 from . import views
 
@@ -15,8 +15,8 @@ urlpatterns = [
     path('message/', views.select_user_to_chat,name='chat_select'),
     path('message/<int:user_id>/', views.send_message,name='send'),
     path('search/',views.search_profile,name='search_profile'),
-    
-    path('profilepage/<int:user_id>/', views.inspect_view, name='view_profile'),
-    path('profilepage/', views.my_profile_view, name='my_profile'),
+    # email conformation code 
+    path('activate/<uid64>/<token>/', views.activate_account,name='activate'),
+    path('inspect/<int:user_id>/', views.inspect_view, name='inspect_user'),
 
 ]

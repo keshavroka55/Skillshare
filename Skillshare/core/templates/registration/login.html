@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load socialaccount %}
 
 {% block home %}
 {% endblock %}
@@ -237,10 +238,23 @@
       <div class="form-group">
         <input type="text" name="username" class="form-control" placeholder="Username or email" required autofocus />
       </div>
+      {% if form.email.errors %}
+      <div class='text-danger'>
+        {{form.email.errors}}
+      </div>
+      {% endif %}
       <div class="form-group">
         <input type="password" name="password" class="form-control" placeholder="Password" required />
       </div>
       <button type="submit" class="btn btn-primary">Log In</button>
+
+      <a href="{% url 'social:begin' 'google-oauth2' %}?next=/success/" 
+         style="display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; background-color: white; color: #444; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; font-weight: 500; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+         <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" width="20" height="20">
+         Continue with Google
+      </a>
+
+
       <div class="forgot-password">
         <a href="{% url 'password_change' %}">Forgot password?</a>
       </div>

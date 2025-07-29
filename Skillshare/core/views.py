@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
+from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
-from .models import UserProfile,Chat,Follow
+from .models import UserProfile,Chat
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
@@ -11,7 +12,13 @@ from .forms import SignUpForm,ChartForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.db.models import Q
-
+from .decorators import user_not_authenticated
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from .tokens import account_activation_token
+from django.core.mail import EmailMessage
+from django.urls import reverse
 
 
 
@@ -28,39 +35,75 @@ def profile(request):
     return render (request,'profile.html')
 
 
+
+@user_not_authenticated
 def SignUp_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('homepage')
+            if User.objects.filter(email= form.cleaned_data['email']).exists():
+                form.add_error('email','This email is already Registered!')
+            else:
+                user = form.save(commit=False)
+                user.is_active = False
+                user.save()
+
+                current_site = get_current_site(request)
+                mail_subject = "Activte your account."
+                message = render_to_string('emails/account_activation_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                })
+
+                # Generate UID and token
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                token = account_activation_token.make_token(user)
+
+                # Get domain and scheme
+                scheme = request.scheme  # 'http' or 'https'
+                domain = get_current_site(request).domain.replace("http://", "").replace("https://", "").strip("/")
+
+                #  Build the activation link
+                link = f"{scheme}://{domain}{reverse('activate', kwargs={'uid64': uid, 'token': token})}"
+                print("Keshav the activateion link. =>", link)
+
+
+                 # Send email
+                subject = "Activate your SkillShare account"
+                message = f"Hi {user.username},\nPlease click the link below to activate your account:\n\n{link}"
+
+                to_email = form.cleaned_data.get('email')
+                email = EmailMessage(mail_subject,message,to=[to_email])
+                email.send()
+
+                return render(request,'emails/activation_sent.html')
     else:
         form = SignUpForm()
+
+
     return render(request,'registration/register.html', {'form': form})
+
+def activate_account(request,uid64,token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uid64))
+        user = User.objects.get(pk=uid)
+    except Exception:
+        user = None
+    if user is not None and account_activation_token.check_token(user,token):
+        user.is_active = True
+        user.save()
+        user.backend = 'django.contrib.auth.backends.ModelBackend'
+        login(request,user)
+        return render(request,'emails/activation_success.html')
+    else:
+        return render(request,'emails/activation_invalid.html')
+
 
 @login_required
 def profile_view(request):
-    return render(request, 'profile/profile.html', {
-        'user': request.user,
-    })
-
-@login_required
-def my_profile_view(request):
-    return redirect('view_profile', user_id=request.user.id)
-
-
-@login_required
-def inspect_view(request, user_id):
-    profile_user = get_object_or_404(User, id=user_id)
-    followers = Follow.objects.filter(following=profile_user)
-    is_following = Follow.objects.filter(follower=request.user, following=profile_user).exists()
-    
-    return render(request, 'profile/profile_view.html', {
-        'profile_user': profile_user,
-        'followers': followers,
-        'is_following': is_following
-    })
+    return render(request, 'profile/profile.html', {'user': request.user,})
 
 
 @login_required
@@ -99,6 +142,8 @@ def custom_change_password(request):
         form = PasswordChangeForm(user=request.user)
 
     return render(request, 'profile/change_password.html', {'form': form})
+
+# this will remove after the real chat will be created... 
 
 @login_required
 def send_message(request, user_id):
@@ -155,5 +200,10 @@ def search_profile(request):
     if request.user.is_authenticated:
         results = results.exclude(user= request.user) # exclude the search user.
     return render(request,'search_profile.html',{'results':results,'query':query})
+
+
+def inspect_view(request, user_id):
+    target_user = get_object_or_404(User, id=user_id)
+    return render(request, 'inspect_profile.html', {'user': target_user})
 
 

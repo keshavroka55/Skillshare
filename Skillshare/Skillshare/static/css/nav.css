@@ -1,0 +1,40 @@
+/* Navbar container styling */
+.navbar-custom {
+  background-color: #ffffff; /* You can change this to match your design */
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional shadow */
+}
+
+/* Logo image size */
+.logo-img {
+  height: 20px;  /* ✅ Change this height to make logo smaller/larger */
+  width: auto;   /* Keeps aspect ratio */
+}
+
+/* Mobile toggle button (optional customization) */
+.navbar-toggler {
+  border: none;
+}
+
+/* Search bar styling */
+.search-bar input[type="search"] {
+  max-width: 200px; /* ✅ Adjust width if needed */
+}
+
+/* Nav link styles (optional enhancements) */
+.nav-link {
+  margin-left: 15px;
+  font-weight: 500;
+  color: #333;
+}
+
+.nav-link:hover {
+  color: #007bff; /* Hover color */
+}
+
+/* Responsive: center logo on small screens if needed */
+@media (max-width: 576px) {
+  .navbar-brand {
+    margin: auto;
+  }
+}

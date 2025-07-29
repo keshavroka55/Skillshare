@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+ {% block home %}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/connection_requests.css' %}">
+<h2>Received Connection Requests</h2>
+<ul>
+  {% if requests %}
+  
+  {% for req in requests %}
+  <li>
+    {{ req.from_user.username }} -
+    <a href="{% url 'handle_request' req.id 'accept' %}">Accept</a> |
+    <a href="{% url 'handle_request' req.id 'decline' %}">Decline</a>
+  </li>
+  {% endfor %}
+  {% else %}
+  <p>No requests! 
+  </p>
+  {% endif %}
+</ul>
+
+{% endblock %}

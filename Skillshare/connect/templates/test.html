@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block home %}
+<link rel="stylesheet" href="{% static 'css/connect_home.css' %}">
+
+<div class="connect-container">
+  <h1>Welcome to <span class="highlight">SkillSwap Connect</span></h1>
+  <p class="subtitle">Build meaningful connections, grow your skills, and exchange knowledge with like-minded people.</p>
+
+  <div class="action-buttons">
+    <a href="{% url 'user_list' %}" class="btn primary-btn">Explore Users</a>
+    <a href="{% url 'received_requests' %}" class="btn secondary-btn">View Connection Requests</a>
+  </div>
+</div>
+{% endblock %}

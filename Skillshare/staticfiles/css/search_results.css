@@ -1,0 +1,83 @@
+.results-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 0 15px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.results-heading {
+  color: #1c1e21;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.profile-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid #dddfe2;
+  transition: all 0.2s ease;
+}
+
+.profile-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1c1e21;
+}
+
+.profile-bio {
+  color: #606770;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.profile-skills {
+  color: #606770;
+  font-size: 14px;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+
+.message-button {
+  background-color: #1877f2;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.message-button:hover {
+  background-color: #0f62d3;
+}
+
+.no-results {
+  font-size: 16px;
+  color: #606770;
+}

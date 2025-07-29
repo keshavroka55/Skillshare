@@ -27,11 +27,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home,name='homepage'),
     path('success/',views.success,name='success'),
-    # path('search/',views.search_profile,name='search_profile'),
-
-
+    path('auth/', include('social_django.urls', namespace='social')),
 
     path('core/',include('core.urls')),
+    path('connect/',include('connect.urls')),
+
+    path("",include("allauth.urls")),
+
+
 
     path("__reload__/", include("django_browser_reload.urls")), # auto reload.
 

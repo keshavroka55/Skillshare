@@ -1,203 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block home %}
-{% endblock %}
-
 {% block content %}
-<style>
-  /* Facebook-like color palette */
-  :root {
-    --primary-color: #1877f2;
-    --secondary-color: #f0f2f5;
-    --text-color: #1c1e21;
-    --muted-text: #65676b;
-    --border-color: #dddfe2;
-    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    --border-radius: 8px;
-  }
-
-  body {
-    background-color: var(--secondary-color);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: var(--text-color);
-  }
-
-  /* Chat User List Container */
-  .chat-container {
-    max-width: 400px;
-    margin: 40px auto;
-    background-color: #fff;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    padding: 15px;
-  }
-
-  .chat-container h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 15px;
-    padding: 0 15px;
-  }
-
-  /* User List */
-  .chat-user-list {
-    max-height: 500px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--muted-text) var(--secondary-color);
-  }
-
-  .chat-user-list::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  .chat-user-list::-webkit-scrollbar-track {
-    background: var(--secondary-color);
-  }
-
-  .chat-user-list::-webkit-scrollbar-thumb {
-    background: var(--muted-text);
-    border-radius: 4px;
-  }
-
-  .user-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 15px;
-    border-bottom: 1px solid var(--border-color);
-    transition: background-color 0.2s ease;
-    cursor: pointer;
-  }
-
-  .user-item:hover {
-    background-color: var(--secondary-color);
-  }
-
-  .user-item.active {
-    background-color: rgba(24, 119, 242, 0.1);
-  }
-
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .user-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .user-info span {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-color);
-  }
-
-  /* Chat Button */
-  .btn-chat {
-    padding: 6px 12px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--primary-color);
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius);
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-
-  .btn-chat:hover {
-    background-color: var(--primary-color);
-    color: #fff;
-    transform: translateY(-2px);
-  }
-
-  /* Empty State */
-  .empty-state {
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-    color: var(--muted-text);
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .chat-container {
-      margin: 20px auto;
-      padding: 10px;
-    }
-
-    .chat-container h3 {
-      font-size: 18px;
-    }
-
-    .user-item {
-      padding: 8px 10px;
-    }
-
-    .user-info img {
-      width: 36px;
-      height: 36px;
-    }
-
-    .user-info span {
-      font-size: 14px;
-    }
-
-    .btn-chat {
-      font-size: 12px;
-      padding: 5px 10px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .chat-container {
-      margin: 10px;
-    }
-
-    .chat-container h3 {
-      font-size: 16px;
-    }
-
-    .user-info img {
-      width: 32px;
-      height: 32px;
-    }
-
-    .user-info span {
-      font-size: 13px;
-    }
-
-    .btn-chat {
-      font-size: 11px;
-      padding: 4px 8px;
-    }
-  }
-</style>
-
-<div class="chat-container">
-  <h3>Messages</h3>
-  <div class="chat-user-list">
+<link rel="stylesheet" href="{% static 'css/userselect.css' %}">
+<div class="chat-container max-w-3xl mx-auto p-6">
+  <h3 class="chat-heading text-2xl font-semibold text-gray-800 mb-4">Messages</h3>
+  <div class="chat-user-list bg-white rounded-lg shadow-md overflow-hidden">
     {% for u in users %}
-      <div class="user-item {% if request.GET.user_id == u.id|stringformat:'s' %}active{% endif %}">
-        <div class="user-info">
-          {% if u.userprofile.profile_image %}
-            <img src="{{ u.userprofile.profile_image.url }}" alt="{{ u.get_full_name|default:u.username }}'s Profile" />
-          {% else %}
-            <img src="{% static 'images/default-profile.jpg' %}" alt="Default Profile" />
-          {% endif %}
-          <span>{{ u.get_full_name|default:u.username }}</span>
+      <div class="user-item flex items-center justify-between p-4 border-b border-gray-200 hover:bg-gray-50 transition-colors {% if request.GET.user_id == u.id|stringformat:'s' %}active bg-blue-50{% endif %}">
+        <div class="user-info flex items-center space-x-4">
+         <a href="{% url 'inspect_user' u.id %}">
+           {% if u.userprofile.profile_image %}
+           <img src="{{ u.userprofile.profile_image.url }}" alt="{{ u.get_full_name|default:u.username }}'s Profile" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
+           {% else %}
+           <img src="{% static 'images/default-profile.jpg' %}" alt="Default Profile" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
+           {% endif %}
+          </a>
+          <span class="user-name text-gray-800 font-medium">{{ u.get_full_name|default:u.username }}</span>
         </div>
-        <a href="{% url 'send' u.id %}" class="btn-chat">Chat</a>
+        <a href="{% url 'send' u.id %}" class="btn-chat inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium">Chat</a>
+
+
       </div>
     {% empty %}
-      <p class="empty-state">No users available to chat.</p>
+      <p class="empty-state text-gray-500 text-center py-6">No users available to chat.</p>
     {% endfor %}
   </div>
 </div>

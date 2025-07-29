@@ -1,26 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block home %}
-<h1>This is the results of Search the skills that i need!</h1>
-{% endblock %}
-
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/search_results.css' %}">
+<div class="search-results-container">
+    <h2>Search Results for "{{ query }}"</h2>
 
-<h2>Search Results for "{{ query }}"</h2>
-
-{% if results %}
-<ul>
-    {% for profile in results %}
-    <li>
-        <strong>{{ user.username }}</strong><br>
-        <strong>{{ user.email }}</strong><br>
-        Skills: {{ user.userprofile.skills_i_have }}<br>
-        Bio: {{ user.userprofile.bio }}
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No profiles found with the skill "{{ query }}".</p>
-{% endif %}
+    {% if results %}
+    <div class="profile-cards">
+        {% for user in results %}
+        <div class="profile-card">
+            <div class="profile-card__info">
+                <img src="{{ profile.profile_image.url|default:'/static/images/default-profile.png' }}" alt="Profile Image" class="profile-card__image">
+                <div class="profile-card__details">
+                    <div class="profile-card__name">{{ user.first_name }} {{ user.last_name }}</div>
+                    <div class="profile-card__email">{{ user.email }}</div>
+                    <div class="profile-card__skills"><strong>Skills:</strong> {{  user.userprofile.skills_i_have|default:"None" }}</div>
+                    <div class="profile-card__bio"><strong>Bio:</strong> {{ user.userprofile.bio|default:"No bio available." }}</div>
+                </div>
+            </div>
+            <div class="profile-card__actions">
+                <form action="{% url 'send_request' user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="connect-btn">Connect</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No profiles found with the skill "{{ query }}".</p>
+    {% endif %}
+</div>
 {% endblock %}
