@@ -5,8 +5,8 @@
   box-sizing: border-box;
 }
 
-/* Main content container */
-.main-content {
+/* Container for the connections section */
+.connections-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
@@ -15,16 +15,8 @@
   min-height: 100vh;
 }
 
-/* Connection list container */
-.connection-list {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
 /* Heading style */
-.connection-list h2 {
+h2 {
   font-size: 24px;
   font-weight: 600;
   color: #181818;
@@ -32,8 +24,19 @@
   padding-left: 10px;
 }
 
+/* No connections message */
+.no-connections {
+  font-size: 16px;
+  color: #666;
+  padding: 20px;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 /* Connections list */
-.connection-list ul {
+.connections-list {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -41,21 +44,11 @@
   padding: 0;
 }
 
-/* No connections message */
-.connection-list ul li:not(.connection-card) {
-  font-size: 16px;
-  color: #666;
-  padding: 20px;
-  text-align: center;
-  background-color: #fff;
-  border-radius: 8px;
-}
-
-/* Connection card */
+/* Individual connection card */
 .connection-card {
   background-color: #fff;
-  border: 1px solid #e1e1e1;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -65,119 +58,107 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* Connection card header */
-.connection-card__header {
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  background: linear-gradient(135deg, #0077b5, #00a0dc);
+/* Profile header (banner and image) */
+.profile-header {
   position: relative;
+  height: 100px;
+  background: linear-gradient(135deg, #0077b5, #00a0dc);
 }
 
-/* Profile image */
-.connection-card__image {
-  width: 70px;
-  height: 70px;
+.profile-image {
+  position: absolute;
+  bottom: -40px;
+  left: 15px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   border: 3px solid #fff;
-  object-fit: cover;
-  margin-right: 15px;
   background-color: #ccc;
+  object-fit: cover;
 }
 
-/* Connection info */
-.connection-card__info {
-  flex: 1;
+/* Profile info section */
+.profile-info {
+  padding: 50px 15px 15px;
+  text-align: left;
 }
 
-.connection-card__name {
+.profile-name {
   font-size: 18px;
   font-weight: 600;
   color: #181818;
-  text-decoration: none;
   margin-bottom: 5px;
+  text-decoration: none;
+  display: block;
 }
 
-.connection-card__name:hover {
+.profile-name:hover {
   color: #0077b5;
   text-decoration: underline;
 }
 
-.connection-card__headline {
+.profile-title {
   font-size: 14px;
   color: #666;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-.connection-card__skills {
+.profile-connection {
   font-size: 12px;
   color: #999;
 }
 
-/* Connection actions */
-.connection-card__actions {
-  padding: 10px 15px;
-  text-align: right;
-}
-
-/* Connect button */
-.connection-card__button {
+/* Connection button */
+.connection-button {
+  display: inline-block;
+  margin-top: 10px;
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 600;
   color: #0077b5;
-  background-color: transparent;
   border: 1px solid #0077b5;
   border-radius: 20px;
-  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.connection-card__button:hover {
+.connection-button:hover {
   background-color: #0077b5;
   color: #fff;
 }
 
-/* Message styling (for Django messages) */
-.messages {
-  margin-bottom: 20px;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
-  .main-content {
+  .connections-container {
     padding: 15px;
   }
 
-  .connection-list ul {
+  .connections-list {
     grid-template-columns: 1fr;
   }
 
-  .connection-list h2 {
+  h2 {
     font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .connection-card__image {
+  .profile-image {
     width: 60px;
     height: 60px;
+    bottom: -30px;
   }
 
-  .connection-card__name {
+  .profile-info {
+    padding: 40px 10px 10px;
+  }
+
+  .profile-name {
     font-size: 16px;
   }
 
-  .connection-card__headline {
-    font-size: 12px;
-  }
-
-  .connection-card__skills {
-    font-size: 11px;
-  }
-
-  .connection-card__button {
-    padding: 6px 12px;
+  .profile-title {
     font-size: 12px;
   }
 }

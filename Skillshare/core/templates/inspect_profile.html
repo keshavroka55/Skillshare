@@ -25,6 +25,12 @@
         <p><strong>Bio:</strong> {{ user.userprofile.bio|default:'None' }}</p>
         <p><strong>Skills I Have:</strong> {{ user.userprofile.skills_i_have|default:'None' }}</p>
         <p><strong>Skills I Need:</strong> {{ user.userprofile.skills_i_need|default:'None' }}</p>
+        <a href="{% url 'send_request' user.id %}">Connect</a><br>
+        <a href="{% url 'profilerate' username=user.username %}">View Rating and Feedback</a>
+        
+
+
+
         <div>
           {% with link=user.userprofile.social_account_link %}
             {% if link %}

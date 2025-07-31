@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -87,8 +88,11 @@ SOCIALACCOUNT_PROVIDERS = {
 # )
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '308677933289-1d492tve78dp2f3mn8mbj34i1njrh7gk.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_OAUTH2_SECRET')
+
 
 
 # Django allauth config
@@ -120,6 +124,8 @@ TEMPLATES = [
             BASE_DIR / "templates", # that's not work while i first try
             BASE_DIR / "Skillshare"/ "templates",
             BASE_DIR / "core"/ "templates",
+            BASE_DIR / "connect"/ "templates",
+
 
         ],
         'APP_DIRS': True,

@@ -19,4 +19,7 @@ urlpatterns = [
     path('activate/<uid64>/<token>/', views.activate_account,name='activate'),
     path('inspect/<int:user_id>/', views.inspect_view, name='inspect_user'),
 
+    path('profile/<str:username>/', views.userrating, name='profilerate'),
+
+
 ]

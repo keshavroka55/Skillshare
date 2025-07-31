@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/my_connections.css' %}">
+
+<h2>{{user.first_name}}  {{user.last_name}} Connections</h2>
+
+{% if connected_users %}
+  <ul class="connections-list">
+    {% for user in connected_users %}
+      <li class="connection-item">
+        <div class="profile-card">
+          {% if user.userprofile.profile_image %}
+          <a href="{% url 'inspect_user' user.id %}">
+          <img src="{{ user.userprofile.profile_image.url }}" alt="{{ user.username }}'s profile picture" class="profile-img">
+              {% else %}
+              <img src="{% static 'images/default.jpg' %}" alt="Default profile picture" class="profile-img">
+              {% endif %}
+            </a>
+            <p class="username">{{ user.username }}</p>
+          <div class="user-info">
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>You have no accepted connections yet.</p>
+{% endif %}
+{% endblock %}

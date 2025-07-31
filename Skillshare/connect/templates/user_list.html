@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% comment %}
+
 {% load static %}
 
 {% block content %}
@@ -21,7 +23,7 @@
             <li class="connection-card">
                 <div class="connection-card__header">
                     <a href="{% url 'inspect_user' user.id %}">
-                        <img src="{{ user.userprofile.profile_image.url|default:'/static/images/default-profile.png' }}" alt="{{ user.first_name }} {{ user.last_name }}" class="connection-card__image">
+                        <img src="{{ user.userprofile.profile_image.url|default:'/static/images/default.jpg' }}" alt="{{ user.first_name }} {{ user.last_name }}" class="connection-card__image">
                     </a>
                     <div class="connection-card__info">
                         <div class="connection-card__name">{{ user.first_name }} {{ user.last_name }}</div>
@@ -43,4 +45,128 @@
         </ul>
     </div>
 </div>
+{% endblock %} {% endcomment %}
+
+
+{% load static %}
+
+{% block content %}
+
+<style>
+  .message-box {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #c3e6cb;
+  }
+
+  .people-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .people-heading {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .user-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .user-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .user-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-name {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .user-bio,
+  .user-skills {
+    font-size: 14px;
+    color: #555;
+  }
+
+  .connect-btn {
+    margin-top: 15px;
+  }
+
+  .connect-btn button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .connect-btn button:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+{% if messages %}
+  <div>
+    {% for message in messages %}
+      <div class="message-box">{{ message }}</div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="people-container">
+  <h2 class="people-heading">People You May Know</h2>
+  <ul class="user-list">
+    {% for user in users %}
+      {% if not user.is_connected %}
+      <li class="user-card">
+        <div class="user-info">
+          <a href="{% url 'inspect_user' user.id %}">
+            <img src="{{ user.userprofile.profile_image.url|default:'/static/images/default.jpg' }}"
+                 alt="{{ user.first_name }} {{ user.last_name }}"
+                 class="user-image">
+          </a>
+          <div>
+            <div class="user-name">{{ user.first_name }} {{ user.last_name }}</div>
+            <div class="user-bio">Bio: {{ user.userprofile.bio|default:"Professional" }}</div>
+            <div class="user-skills">Skills: {{ user.userprofile.skills_i_have|default:"Berojgar, Tiktoker" }}</div>
+          </div>
+        </div>
+        <form action="{% url 'send_request' user.id %}" method="post" class="connect-btn">
+          {% csrf_token %}
+          <button type="submit">Connect</button>
+        </form>
+      </li>
+      {% endif %}
+    {% empty %}
+      <li>No new connections available.</li>
+    {% endfor %}
+  </ul>
+</div>
+
 {% endblock %}

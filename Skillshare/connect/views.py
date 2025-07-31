@@ -78,3 +78,26 @@ def received_requests(request):
     requests = Connectionk.objects.filter(to_user=request.user, status='pending')
     return render(request, 'receive_request.html', {'requests': requests})
 
+
+# to view your connections
+
+@login_required
+def my_connections_view(request):
+    user = request.user
+    connections = Connectionk.objects.filter(
+        Q(from_user=user) | Q(to_user=user),
+        status='accepted'
+    )
+
+    # To get the connected user (not the logged-in one)
+    connected_users = []
+    for conn in connections:
+        if conn.from_user == user:
+            connected_users.append(conn.to_user)
+        else:
+            connected_users.append(conn.from_user)
+
+    return render(request, 'my_connections.html', {
+        'connected_users': connected_users
+    })
+

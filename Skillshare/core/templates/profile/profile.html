@@ -302,13 +302,13 @@
       <div class="profile-banner">
         <div class="profile-pic-container">
           {% if user.userprofile.profile_image %}
-            <img src="{{ user.userprofile.profile_image.url }}" alt="Profile Image" />
+          <img src="{{ user.userprofile.profile_image.url }}" alt="Profile Image" />
           {% else %}
-            <img src="{% static 'profile_images/default.jpg' %}" alt="Default Image" />
+          <img src="{% static 'profile_images/default.jpg' %}" alt="Default Image" />
           {% endif %}
         </div>
       </div>
-
+      
       <div class="card-body profile-info">
         <h3>{{ user.first_name }} {{ user.last_name }}</h3>
         <p class="username-handle">@{{ user.username }}</p>
@@ -317,23 +317,27 @@
         <p><strong>Bio:</strong> {{ user.userprofile.bio|default:'None' }}</p>
         <p><strong>Skills I Have:</strong> {{ user.userprofile.skills_i_have|default:'None' }}</p>
         <p><strong>Skills I Need:</strong> {{ user.userprofile.skills_i_need|default:'None' }}</p>
+        {% comment %} <a href="{% url 'send_request' user.id %}">Connect </a><br> {% endcomment %}
+        <a href="{% url 'profilerate' username=user.username %}">View Rating and Feedback</a> <br>
+        <a href="{% url 'my-connections' %}">View My Connections</a>
+        
         <div>
           {% with link=user.userprofile.social_account_link %}
-            {% if link %}
-              {% if 'http' in link %}
-                <a href="{{ link }}" target="_blank" rel="noopener noreferrer">View Social Profile</a>
-              {% else %}
-                <a href="https://{{ link }}" target="_blank" rel="noopener noreferrer">View Social Profile</a>
-              {% endif %}
-            {% endif %}
+          {% if link %}
+          {% if 'http' in link %}
+          <a href="{{ link }}" target="_blank" rel="noopener noreferrer">View Social Profile</a>
+          {% else %}
+          <a href="https://{{ link }}" target="_blank" rel="noopener noreferrer">View Social Profile</a>
+          {% endif %}
+          {% endif %}
           {% endwith %}
         </div>
       </div>
-
+      
       <!-- Navigation Tabs -->
       <div class="profile-nav">
         <ul>
-          <li><a href="{%url 'profile_edit'%}" class="active">Profile Edit</a></li>
+          <li><a href="{%url 'profile_edit'%}">Profile Edit</a></li>
           <li><a href="{%url 'password_change'%}">Change Password</a></li>
         </ul>
       </div>

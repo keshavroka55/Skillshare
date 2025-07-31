@@ -7,4 +7,6 @@ urlpatterns = [
     path('send_request/<int:user_id>/', views.send_request, name='send_request'),
     path('received_requests/', views.received_requests, name='received_requests'),
     path('handle_request/<int:connection_id>/<str:action>/', views.handle_request, name='handle_request'),
+    path('my-connections/', views.my_connections_view, name='my-connections'),
+
 ]

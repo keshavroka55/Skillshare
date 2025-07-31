@@ -1,0 +1,91 @@
+body {
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.connection-list h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.connection-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  transition: transform 0.2s;
+}
+
+.connection-card:hover {
+  transform: translateY(-5px);
+}
+
+.connection-card__header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.connection-card__image {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #007bff;
+  margin-right: 15px;
+}
+
+.connection-card__info {
+  flex: 1;
+}
+
+.connection-card__name {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.connection-card__headline,
+.connection-card__skills {
+  font-size: 14px;
+  color: #555;
+}
+
+.connection-card__actions {
+  text-align: right;
+  margin-top: 10px;
+}
+
+.connection-card__button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.connection-card__button:hover {
+  background-color: #0056b3;
+}

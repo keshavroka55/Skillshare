@@ -269,7 +269,7 @@
       {% if receiver.userprofile.profile_image %}
         <img src="{{ receiver.userprofile.profile_image.url }}" alt="{{ receiver.get_full_name|default:receiver.username }}'s Profile" />
       {% else %}
-        <img src="{% static 'images/default-profile.jpg' %}" alt="Default Profile" />
+        <img src="{% static 'images/default.jpg' %}" alt="Default Profile" />
       {% endif %}
       <div class="user-info">
         <span>{{ receiver.get_full_name|default:receiver.username }}</span>

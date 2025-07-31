@@ -4,11 +4,11 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
-from .models import UserProfile,Chat
+from .models import UserProfile,Chat,Rating
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
-from .forms import SignUpForm,ChartForm
+from .forms import SignUpForm,ChartForm,RatingForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -207,3 +207,29 @@ def inspect_view(request, user_id):
     return render(request, 'inspect_profile.html', {'user': target_user})
 
 
+# rating one 
+
+def userrating(request, username):
+    profile = get_object_or_404(UserProfile, user__username=username)
+    ratings = profile.ratings_received.all()
+    avg_rating = profile.average_rating()
+
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating_obj, created = Rating.objects.update_or_create(
+                rated_user=profile,
+                rated_by=request.user,
+                defaults=form.cleaned_data
+            )
+            return redirect('profilerate', username=username)
+    else:
+        form = RatingForm()
+
+    return render(request, 'profile/profile_rate.html', {
+        'profile': profile,
+        'ratings': ratings,
+        'avg_rating': avg_rating,
+        'form': form,
+    })

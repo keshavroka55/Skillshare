@@ -13,7 +13,7 @@
            {% if u.userprofile.profile_image %}
            <img src="{{ u.userprofile.profile_image.url }}" alt="{{ u.get_full_name|default:u.username }}'s Profile" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
            {% else %}
-           <img src="{% static 'images/default-profile.jpg' %}" alt="Default Profile" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
+           <img src="{% static 'images/default.jpg' %}" alt="Default Profile" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
            {% endif %}
           </a>
           <span class="user-name text-gray-800 font-medium">{{ u.get_full_name|default:u.username }}</span>

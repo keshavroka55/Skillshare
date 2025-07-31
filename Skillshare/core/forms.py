@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile, Chat
+from .models import UserProfile, Chat,Rating
 
 
 
@@ -42,4 +42,14 @@ class ChartForm(forms.ModelForm):
         fields = ['content']
         widgets = {
             'content': forms.TextInput(attrs={'class': 'form-control','placeholder':'Type Your Messages....'})
+        }
+
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['rating', 'feedback']
+        widgets = {
+            'rating': forms.RadioSelect(choices=[(i, f'{i} Star') for i in range(1, 6)]),
+            'feedback': forms.Textarea(attrs={'rows': 3}),
         }

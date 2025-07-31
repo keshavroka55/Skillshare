@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
 
 
 
@@ -17,6 +16,25 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def average_rating(self):
+        ratings = self.ratings_received.all()
+        if ratings.exists():
+            return round(sum(r.rating for r in ratings) / ratings.count(), 2)
+        return 0
+
+class Rating(models.Model):
+    rated_user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='ratings_received')
+    rated_by = models.ForeignKey(User, on_delete=models.CASCADE)  # The one giving rating
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    feedback = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('rated_user', 'rated_by')  # Prevent duplicate ratings
+
+    def __str__(self):
+        return f'{self.rated_by} rated {self.rated_user.user.username} {self.rating}/5'
     
 
 # the messages one.
