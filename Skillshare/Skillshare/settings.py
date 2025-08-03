@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
-import dj_database_url
 from decouple import config
 
 
@@ -87,11 +86,6 @@ SOCIALACCOUNT_PROVIDERS = {
 #     'social_core.pipeline.user.get_user_by_email',
 # )
 
-
-
-
-
-from decouple import config
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('GOOGLE_OAUTH2_SECRET')
