@@ -32,7 +32,7 @@ urlpatterns = [
     path('core/',include('core.urls')),
     path('connect/',include('connect.urls')),
 
-    path("",include("allauth.urls")),
+    path("accounts",include("allauth.urls")),
 
 
 
