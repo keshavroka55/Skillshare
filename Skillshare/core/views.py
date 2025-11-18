@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .decorators import user_not_authenticated
-from django.template.loader import render_to_string
+from django.template.loader import render_to_string 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from .tokens import account_activation_token
