@@ -31,7 +31,7 @@ A simple **Skill Sharing and Networking web application** built while learning D
 
    ```bash
    git clone https://github.com/keshavroka55/SkillShare_WebApp.git
-   cd SkillShare_WebApp
+   cd SkillShare
 
 Purpose
 
