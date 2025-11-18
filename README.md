@@ -1,6 +1,6 @@
 # SkillShare Web App
 
-A simple **Skill Sharing and Networking web application** built while learning Django. This project is a hands-on implementation of all the concepts I learned during my Django journey.
+A simple Skill Sharing and Networking web application built as the final project of my Django learning journey. This project goes beyond just implementing concepts and represents a summary of all the classes and lessons I have learned.
 
 ---
 
